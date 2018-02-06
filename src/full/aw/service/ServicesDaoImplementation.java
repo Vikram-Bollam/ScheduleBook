@@ -15,14 +15,14 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 public class ServicesDaoImplementation implements ServiceDao {
 	DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-
 	@Override
 	public boolean addService(String userId, String serviceName, String serviceCost, String serviceTime) {
 		Entity addService = new Entity("Services");
 		addService.setProperty("UserId", userId);
 		addService.setProperty("ServiceName", serviceName);
 		addService.setProperty("ServiceCost", serviceCost);
-		addService.setProperty("ServiceTime", serviceTime);
+		ServicesDaoImplementation s=new ServicesDaoImplementation();
+		addService.setProperty("ServiceTime", s.giveValidTime(serviceTime));
 		ds.put(addService);
 		return true;
 	}
@@ -65,7 +65,8 @@ public class ServicesDaoImplementation implements ServiceDao {
 		for (Entity result : pq.asIterable()) {
 			result.setProperty("ServiceName", serviceName);
 			result.setProperty("ServiceCost", serviceCost);
-			result.setProperty("ServiceTime", serviceTime);
+			ServicesDaoImplementation s=new ServicesDaoImplementation();
+			result.setProperty("ServiceTime", s.giveValidTime(serviceTime));
 			ds.put(result);
 			return true;
 		}
@@ -84,5 +85,42 @@ public class ServicesDaoImplementation implements ServiceDao {
 			return true;
 		}
 		return false;
+	}
+	public String giveValidTime(String serviceTime) {
+		int time = Integer.parseInt(serviceTime);
+		if (time <= 7) {
+			time = 5;
+		} else if (time <= 20) {
+			time = 15;
+		}else if(time <= 30){
+			time=30;
+		}else{
+			time=60;
+		}
+		return String.valueOf(time);
+	}
+	public int getCost(String userId, String serviceName) {
+		int time = 0;
+		Filter currentUser = new FilterPredicate("UserId", FilterOperator.EQUAL, userId);
+		Filter requiredService = new FilterPredicate("ServiceName", FilterOperator.EQUAL, serviceName);
+		CompositeFilter filter = CompositeFilterOperator.and(currentUser, requiredService);
+		Query q = new Query("Services").setFilter(filter);
+		PreparedQuery pq = ds.prepare(q);
+		for (Entity result : pq.asIterable()) {
+			time = Integer.parseInt((String) result.getProperty("ServiceCost"));
+			return time;
+		}
+		return time;
+	}
+	
+	public boolean deleteServicesByUser(String userId)
+	{   DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+		Filter userid = new FilterPredicate("UserId", FilterOperator.EQUAL, userId);
+		Query q = new Query("Services").setFilter(userid);
+		PreparedQuery pq = ds.prepare(q);
+		for (Entity result : pq.asIterable()) {
+			ds.delete(result.getKey());
+		}
+		return true;	
 	}
 }

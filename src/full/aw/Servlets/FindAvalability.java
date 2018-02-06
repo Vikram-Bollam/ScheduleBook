@@ -51,6 +51,10 @@ public class FindAvalability extends HttpServlet {
 				availableTime.add(openMilli);
 				openMilli = openMilli + (serviceTime * 60 * 1000);
 			}
+			Long tempNumber=availableTime.last();
+			if((tempNumber+(serviceTime * 60 * 1000))>closeMilli){
+			availableTime.remove(tempNumber);
+			}
 			// Applying filters and getting requried data
 			Filter userId = new FilterPredicate("userId", FilterOperator.EQUAL, userid);
 			Filter userDate = new FilterPredicate("Date", FilterOperator.EQUAL, date);

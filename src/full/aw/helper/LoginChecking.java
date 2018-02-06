@@ -8,7 +8,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class LoginChecking {
-	static public Entity checkDetails(String userName, String password) {		;
+	static public Entity checkDetails(String userName, String password) {
 		Logger logger = Logger.getLogger(LoginChecking.class.getName());
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Key k = KeyFactory.createKey("Users", userName);

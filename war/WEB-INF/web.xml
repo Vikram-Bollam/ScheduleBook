@@ -5,6 +5,30 @@
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<servlet>
+		<servlet-name>CornDemo</servlet-name>
+		<servlet-class>full.aw.Servlets.CornDemo</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CornDemo</servlet-name>
+		<url-pattern>/CornDemo</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AppointmentReminder</servlet-name>
+		<servlet-class>full.aw.Servlets.AppointmentReminder</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AppointmentReminder</servlet-name>
+		<url-pattern>/AppointmentReminder</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SendRemainder</servlet-name>
+		<servlet-class>full.aw.Servlets.SendRemainder</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendRemainder</servlet-name>
+		<url-pattern>/SendRemainder</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>SaloonProject</servlet-name>
 		<servlet-class>full.aw.Servlets.SaloonProjectServlet</servlet-class>
 	</servlet>
@@ -68,7 +92,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AddService</servlet-name>
 		<url-pattern>/AddService</url-pattern>
 	</servlet-mapping>
-
 	<servlet>
 		<servlet-name>UpdateService</servlet-name>
 		<servlet-class>full.aw.Servlets.UpdateService</servlet-class>
@@ -112,7 +135,54 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>UpdateApp</servlet-name>
 		<url-pattern>/UpdateApp</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>UpdateApp</servlet-name>
+		<servlet-class>full.aw.Servlets.UpdateApp</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateApp</servlet-name>
+		<url-pattern>/UpdateApp</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteAccount</servlet-name>
+		<servlet-class>full.aw.Servlets.DeleteAccount</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteAccount</servlet-name>
+		<url-pattern>/DeleteAccount</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PasswordReset</servlet-name>
+		<servlet-class>full.aw.Servlets.PasswordReset</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PasswordReset</servlet-name>
+		<url-pattern>/PasswordReset</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ResetPass</servlet-name>
+		<servlet-class>full.aw.Servlets.ResetPass</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResetPass</servlet-name>
+		<url-pattern>/ResetPass</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>RedirectUrl</servlet-name>
+		<servlet-class>full.googlesignin.RedirectUrl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RedirectUrl</servlet-name>
+		<url-pattern>/RedirectUrl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserAuth</servlet-name>
+		<servlet-class>full.googlesignin.GetTokens</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserAuth</servlet-name>
+		<url-pattern>/UserAuth</url-pattern>
+	</servlet-mapping>	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

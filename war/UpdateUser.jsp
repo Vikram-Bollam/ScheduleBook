@@ -26,6 +26,16 @@ input[type=submit] {
     border-radius: 4px;
     cursor: pointer;
 }
+input[type=button] {
+    width: 40%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
 .s {
     width: 100%;
     padding: 12px 20px;
@@ -43,6 +53,7 @@ table {
     margin: 0 auto;
 }
 </style>
+<script type="text/javascript" src="SearchUser.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
@@ -104,9 +115,11 @@ table {
 					value="<%=ctime%>"></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="Update"></td>
+				<td><input type="submit" value="Update"> &nbsp &nbsp &nbsp
+				<input type="button" value="Delete Account !!! " onclick="deleteUser()"></td>
 			</tr>
 		</table>
+
 	</form>
 </body>
 </html>

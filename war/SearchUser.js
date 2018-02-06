@@ -95,3 +95,7 @@ function updateDetails(clicked_id) {
 	xhttp.open("GET", "UpdateAppointment?custKey=" + custKey, true);
 	xhttp.send();
 }
+
+function deleteUser(){
+	window.location.assign("DeleteUser.jsp");
+}

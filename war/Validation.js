@@ -21,3 +21,14 @@ function testFunction(){
 	alert(date);
 	location.href="view.jsp?date=" + date;
 }
+
+function validatePassword(){
+	var pass1 = document.getElementById("pass1").value;
+	var pass2 = document.getElementById("pass2").value;
+	if(pass1==pass2){
+		return true;
+	}else{
+		alert("Password Not Matched");
+		return false;
+	}
+}

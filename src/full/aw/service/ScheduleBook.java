@@ -9,6 +9,8 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
+import full.aw.helper.MemcacheUtil;
+
 public class ScheduleBook {
 	static DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 
@@ -45,6 +47,8 @@ public class ScheduleBook {
 	}// delete method close
 
 	// code to obtain the required entity
+
+	@SuppressWarnings("unchecked")
 	public Entity getEntity(String userId, String userKey) {
 		Filter userid = new FilterPredicate("userId", FilterOperator.EQUAL, userId);
 		Query q = new Query("Appointment").setFilter(userid);
@@ -53,6 +57,7 @@ public class ScheduleBook {
 		for (Entity result : pq.asIterable()) {
 			if (result.getKey().toString().equals(userKey)) {
 				wantedEntity = result;
+				MemcacheUtil.getCache().put(userKey, wantedEntity);
 				return wantedEntity;
 			} // if close
 		} // for close
@@ -62,24 +67,47 @@ public class ScheduleBook {
 	// code to update the Appointment
 	public boolean updateSchedule(String userid, String custName, String custEmail, String date, Long time,
 			String service, String userKey) {
-		System.out.println(userKey);
-		Filter user = new FilterPredicate("userId", FilterOperator.EQUAL, userid);
-		Query q = new Query("Appointment").setFilter(user);
-		PreparedQuery pq = ds.prepare(q);
-		for (Entity insertApp : pq.asIterable()) {
-			if (insertApp.getKey().toString().equals(userKey)) {
-				ServicesDaoImplementation s = new ServicesDaoImplementation();
-				int serviceTime = s.getTime(userid, service);
-				insertApp.setProperty("Date", date);
-				insertApp.setProperty("CustomerName", custName);
-				insertApp.setProperty("CustomerEmail", custEmail);
-				insertApp.setProperty("StartTime", time);
-				insertApp.setProperty("EndTime", time + (serviceTime * 60 * 1000));
-				insertApp.setProperty("ServiceName", service);
-				ds.put(insertApp);
-				return true;
+		try {
+			Entity insertApp = (Entity) MemcacheUtil.getCache().get(userKey);
+			ServicesDaoImplementation s = new ServicesDaoImplementation();
+			int serviceTime = s.getTime(userid, service);
+			insertApp.setProperty("Date", date);
+			insertApp.setProperty("CustomerName", custName);
+			insertApp.setProperty("CustomerEmail", custEmail);
+			insertApp.setProperty("StartTime", time);
+			insertApp.setProperty("EndTime", time + (serviceTime * 60 * 1000));
+			insertApp.setProperty("ServiceName", service);
+			ds.put(insertApp);
+			return true;
+		} catch (Exception e) {
+			Filter user = new FilterPredicate("userId", FilterOperator.EQUAL, userid);
+			Query q = new Query("Appointment").setFilter(user);
+			PreparedQuery pq = ds.prepare(q);
+			for (Entity insertApp : pq.asIterable()) {
+				if (insertApp.getKey().toString().equals(userKey)) {
+					ServicesDaoImplementation s = new ServicesDaoImplementation();
+					int serviceTime = s.getTime(userid, service);
+					insertApp.setProperty("Date", date);
+					insertApp.setProperty("CustomerName", custName);
+					insertApp.setProperty("CustomerEmail", custEmail);
+					insertApp.setProperty("StartTime", time);
+					insertApp.setProperty("EndTime", time + (serviceTime * 60 * 1000));
+					insertApp.setProperty("ServiceName", service);
+					ds.put(insertApp);
+					return true;
+				}
 			}
-		}	
+		}
 		return false;
-	}//update method close
+	}// update method close
+
+	public boolean deleteAppointmentsByUser(String userId) {
+		Filter userid = new FilterPredicate("userId", FilterOperator.EQUAL, userId);
+		Query q = new Query("Appointment").setFilter(userid);
+		PreparedQuery pq = ds.prepare(q);
+		for (Entity result : pq.asIterable()) {
+			ds.delete(result.getKey());
+		}
+		return true;
+	}
 }// class close

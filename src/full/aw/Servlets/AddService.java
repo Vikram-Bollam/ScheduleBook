@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import full.aw.service.ServicesDaoImplementation;
 
 @SuppressWarnings("serial")
@@ -22,7 +21,7 @@ public class AddService extends HttpServlet {
 		boolean b = addService.addService(userid, req.getParameter("serviceName"), req.getParameter("serviceCost"),
 				req.getParameter("serviceTime"));
 		if (b == true) {
-			RequestDispatcher rd=req.getRequestDispatcher("AddService.html");
+			RequestDispatcher rd = req.getRequestDispatcher("AddService.html");
 			rd.include(req, resp);
 			out.print("<script>alert('Service Added !! ');</script>");
 		}

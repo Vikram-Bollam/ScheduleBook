@@ -40,7 +40,9 @@ a {
 		 <a	href="ViewAppointment.jsp">View Appointment</a> &nbsp;&nbsp;&nbsp;&nbsp;
 		 <a	href="UpdateUser.jsp">Update Details</a>&nbsp;&nbsp;&nbsp;&nbsp; <a
 			href="AddService.html">Add Service </a> &nbsp;&nbsp;&nbsp;&nbsp;<a
-			href="UpdateServices.jsp">Update Service</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="logout.jsp">Logout(<%=currentuser%>)
+			href="UpdateServices.jsp">Update Service</a>&nbsp;&nbsp;&nbsp;&nbsp; 
+			<a href="Statistics.jsp">Statistics</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="logout.jsp">Logout(<%=currentuser%>)
 		</a>
 	</h3>
 
